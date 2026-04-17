@@ -16,13 +16,38 @@ function saveSettings() {
     setStatus('Settings saved');
 }
 
+function saveThemePrefs() {
+    localStorage.setItem(STORAGE_PREFIX + 'classicSkin', byId('classicSkin').checked ? '1' : '0');
+    localStorage.setItem(STORAGE_PREFIX + 'glossyButtons', byId('glossyButtons').checked ? '1' : '0');
+    localStorage.setItem(STORAGE_PREFIX + 'settingsTexture', byId('settingsTexture').checked ? '1' : '0');
+    applyThemePrefs();
+}
+
+function applyThemePrefs() {
+    var classicSkin = byId('classicSkin').checked;
+    var glossyButtons = byId('glossyButtons').checked;
+    var settingsTexture = byId('settingsTexture').checked;
+
+    document.body.className = '';
+    if (classicSkin) document.body.className += ' classic-skin';
+    if (glossyButtons) document.body.className += (document.body.className ? ' ' : '') + 'glossy-buttons';
+    if (settingsTexture) document.body.className += (document.body.className ? ' ' : '') + 'texture-settings';
+}
+
 function loadSettings() {
     var apiKey = localStorage.getItem(STORAGE_PREFIX + 'apiKey');
     var baseURL = localStorage.getItem(STORAGE_PREFIX + 'baseURL');
     var model = localStorage.getItem(STORAGE_PREFIX + 'model');
+    var classicSkin = localStorage.getItem(STORAGE_PREFIX + 'classicSkin');
+    var glossyButtons = localStorage.getItem(STORAGE_PREFIX + 'glossyButtons');
+    var settingsTexture = localStorage.getItem(STORAGE_PREFIX + 'settingsTexture');
     if (apiKey) byId('apiKey').value = apiKey;
     if (baseURL) byId('baseURL').value = baseURL;
     if (model) byId('model').value = model;
+    if (classicSkin !== null) byId('classicSkin').checked = classicSkin === '1';
+    if (glossyButtons !== null) byId('glossyButtons').checked = glossyButtons === '1';
+    if (settingsTexture !== null) byId('settingsTexture').checked = settingsTexture === '1';
+    applyThemePrefs();
 }
 
 function escapeHtml(text) {
@@ -106,6 +131,11 @@ function init() {
     messages = [{ role: 'assistant', text: 'Hi, I am rampyai. Ask me anything.' }];
     renderMessages();
     setStatus('Ready');
+
+    var settings = byId('settings');
+    if (settings) {
+        settings.scrollIntoView(true);
+    }
 }
 
 window.onload = init;

@@ -8,7 +8,17 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
+    <div id="statusBarChrome">
+        <span>9:41 AM</span>
+        <span class="status-icons">rampyai 100%</span>
+    </div>
     <div id="app">
+        <div id="navBar">
+            <button id="navBack" type="button">Settings</button>
+            <div id="navTitle">rampyai</div>
+            <div id="navHint">iOS 6 mode</div>
+        </div>
+
         <div id="header">
             <div id="logoWrap">
                 <img id="logo" src="logo.png" alt="rampyai logo">
@@ -20,17 +30,45 @@
         </div>
 
         <div id="settings">
-            <div class="field-row">
-                <label for="apiKey">API Key</label>
-                <input type="password" id="apiKey" value="">
+            <div class="section-title">Settings</div>
+            <div class="group">
+                <div class="group-row">
+                    <label for="apiKey">API Key</label>
+                    <input type="password" id="apiKey" value="">
+                </div>
+                <div class="group-row">
+                    <label for="baseURL">Base URL</label>
+                    <input type="text" id="baseURL" value="https://api.openai.com">
+                </div>
+                <div class="group-row last">
+                    <label for="model">Model</label>
+                    <input type="text" id="model" value="gpt-3.5-turbo">
+                </div>
             </div>
-            <div class="field-row">
-                <label for="baseURL">Base URL</label>
-                <input type="text" id="baseURL" value="https://api.openai.com">
-            </div>
-            <div class="field-row">
-                <label for="model">Model</label>
-                <input type="text" id="model" value="gpt-3.5-turbo">
+
+            <div class="section-title small">Visuals</div>
+            <div class="group">
+                <div class="group-row switch-row">
+                    <span>Classic iOS skin</span>
+                    <label class="switch">
+                        <input type="checkbox" id="classicSkin" checked onchange="saveThemePrefs()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="group-row switch-row">
+                    <span>Glossy buttons</span>
+                    <label class="switch">
+                        <input type="checkbox" id="glossyButtons" checked onchange="saveThemePrefs()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="group-row switch-row last">
+                    <span>Settings texture</span>
+                    <label class="switch">
+                        <input type="checkbox" id="settingsTexture" checked onchange="saveThemePrefs()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
             </div>
             <div class="buttons">
                 <button onclick="saveSettings()">Save</button>
