@@ -1,0 +1,161 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #d6d6d6;
+    color: #111;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 14px;
+}
+
+#app {
+    max-width: 640px;
+    margin: 0 auto;
+    background: #f7f7f7;
+    border-left: 1px solid #bbb;
+    border-right: 1px solid #bbb;
+}
+
+#header {
+    display: block;
+    padding: 12px;
+    background: #ffffff;
+    border-bottom: 1px solid #ddd;
+}
+
+#logoWrap {
+    float: left;
+    width: 60px;
+    height: 60px;
+    margin-right: 12px;
+}
+
+#logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    object-fit: cover;
+    background: #eee;
+}
+
+#titles {
+    overflow: hidden;
+}
+
+#appTitle {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 6px;
+}
+
+#appSub {
+    font-size: 12px;
+    color: #666;
+    margin-top: 4px;
+}
+
+#settings {
+    padding: 12px;
+    background: #fafafa;
+    border-bottom: 1px solid #ddd;
+}
+
+.field-row {
+    margin-bottom: 10px;
+}
+
+.field-row label {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: bold;
+}
+
+.field-row input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.buttons {
+    margin-top: 10px;
+}
+
+.buttons button,
+#sendBtn {
+    padding: 8px 14px;
+    border: 0;
+    border-radius: 6px;
+    background: #1a73e8;
+    color: #fff;
+    font-weight: bold;
+}
+
+#chat {
+    padding: 12px;
+}
+
+#messages {
+    min-height: 260px;
+}
+
+.message {
+    margin: 10px 0;
+    clear: both;
+}
+
+.bubble {
+    display: inline-block;
+    max-width: 85%;
+    padding: 10px 12px;
+    border-radius: 14px;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+.assistant .bubble {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+}
+
+.user .bubble {
+    background: #d9ecff;
+    border: 1px solid #c0dfff;
+    float: right;
+}
+
+.role {
+    font-size: 11px;
+    color: #666;
+    margin-bottom: 3px;
+}
+
+#composer {
+    margin-top: 14px;
+    border-top: 1px solid #ddd;
+    padding-top: 12px;
+}
+
+#prompt {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #bbb;
+    border-radius: 8px;
+    padding: 10px;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+#sendBtn {
+    margin-top: 8px;
+    width: 100%;
+}
+
+#statusBar {
+    padding: 8px 12px;
+    background: #efefef;
+    border-top: 1px solid #ddd;
+    font-size: 12px;
+    color: #666;
+}
