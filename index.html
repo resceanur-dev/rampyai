@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="Content-Language" content="en-us">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>rampyai</title>
+    <title>rampyai groq</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
@@ -15,8 +15,8 @@
     <div id="app">
         <div id="navBar">
             <button id="navBack" type="button">Settings</button>
-            <div id="navTitle">rampyai</div>
-            <div id="navHint">iOS 6 mode</div>
+            <div id="navTitle">rampyai groq</div>
+            <div id="navHint">Groq / HF Space mode</div>
         </div>
 
         <div id="header">
@@ -24,25 +24,25 @@
                 <img id="logo" src="logo.png" alt="rampyai logo">
             </div>
             <div id="titles">
-                <div id="appTitle">rampyai</div>
-                <div id="appSub">Classic chat for old iPhone browsers</div>
+                <div id="appTitle">rampyai groq</div>
+                <div id="appSub">Groq-compatible playground inspired by HF Spaces</div>
             </div>
         </div>
 
         <div id="settings">
-            <div class="section-title">OpenRouter Server</div>
+            <div class="section-title">Groq Settings</div>
             <div class="group">
                 <div class="group-row">
-                    <label for="agentURL">Server URL</label>
-                    <input type="text" id="agentURL" value="https://openrouter.ai/api/v1">
+                    <label for="agentURL">Groq URL</label>
+                    <input type="text" id="agentURL" value="https://api.groq.com/openai/v1">
                 </div>
                 <div class="group-row">
-                    <label for="openrouterKey">OpenRouter API Key</label>
-                    <input type="password" id="openrouterKey" value="" placeholder="sk-or-v1-...">
+                    <label for="openrouterKey">Groq API Key</label>
+                    <input type="password" id="openrouterKey" value="" placeholder="gsk_...">
                 </div>
                 <div class="group-row last">
                     <label for="model">Model</label>
-                    <input type="text" id="model" value="meta-llama/llama-3.1-8b-instruct:free">
+                    <input type="text" id="model" value="llama-3.1-8b-instant">
                 </div>
             </div>
 
@@ -74,8 +74,8 @@
                 <button onclick="saveSettings()">Save</button>
                 <button onclick="clearChat()">Clear</button>
             </div>
-            <div class="notice">This copy is set up for OpenRouter.</div>
-            <div class="notice">The key stays in the browser and is sent only to your local server proxy.</div>
+            <div class="notice">This copy is based on a Groq/HF-style setup.</div>
+            <div class="notice">Use your Groq API key in the settings screen.</div>
         </div>
 
         <div id="chat">

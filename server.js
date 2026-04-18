@@ -7,9 +7,9 @@ var querystring = require('querystring');
 
 var PORT = process.env.PORT || 3000;
 var ROOT = __dirname;
-var OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY || '';
-var OPENROUTER_SITE_URL = process.env.OPENROUTER_SITE_URL || '';
-var OPENROUTER_APP_NAME = process.env.OPENROUTER_APP_NAME || 'rampyai free';
+var GROQ_API_KEY = process.env.GROQ_API_KEY || '';
+var GROQ_SITE_URL = process.env.GROQ_SITE_URL || '';
+var GROQ_APP_NAME = process.env.GROQ_APP_NAME || 'rampyai groq';
 
 function send(res, statusCode, contentType, body) {
     res.writeHead(statusCode, { 'Content-Type': contentType });
@@ -52,9 +52,9 @@ function serveStatic(req, res) {
 }
 
 function proxyChat(req, res, body) {
-    var baseURL = body.baseURL || 'https://openrouter.ai/api/v1';
+    var baseURL = body.baseURL || 'https://api.groq.com/openai/v1';
     var apiKey = body.apiKey || '';
-    var model = body.model || 'llama3.2';
+    var model = body.model || 'llama-3.1-8b-instant';
     var message = body.message || '';
 
     if (!message) {
@@ -65,32 +65,19 @@ function proxyChat(req, res, body) {
     var isHttps = parsed.protocol === 'https:';
     var apiHost = parsed.host || parsed.hostname;
     var basePath = (parsed.pathname || '').replace(/\/$/, '');
-    var usesOllamaNative = /\/api$/i.test(basePath) || /api\/chat$/i.test(basePath);
-    var isOpenRouter = /openrouter\.ai$/i.test(apiHost || '') || /openrouter\.ai/i.test(baseURL);
     var apiPath;
 
-    if (usesOllamaNative) {
-        apiPath = basePath.replace(/\/api$/i, '') + '/api/chat';
-        if (apiPath === '/api/chat') apiPath = '/api/chat';
+    if (!basePath || basePath === '/') {
+        apiPath = '/openai/v1/chat/completions';
+    } else if (/\/openai\/v1$/i.test(basePath)) {
+        apiPath = basePath + '/chat/completions';
+    } else if (/\/v1$/i.test(basePath)) {
+        apiPath = basePath + '/chat/completions';
     } else {
-        if (!basePath || basePath === '/') {
-            apiPath = '/v1/chat/completions';
-        } else if (/\/api\/v1$/i.test(basePath)) {
-            apiPath = basePath + '/chat/completions';
-        } else if (/\/v1$/i.test(basePath)) {
-            apiPath = basePath + '/chat/completions';
-        } else {
-            apiPath = basePath + '/v1/chat/completions';
-        }
+        apiPath = basePath + '/openai/v1/chat/completions';
     }
 
-    var payload = usesOllamaNative ? JSON.stringify({
-        model: model,
-        messages: [
-            { role: 'user', content: message }
-        ],
-        stream: false
-    }) : JSON.stringify({
+    var payload = JSON.stringify({
         model: model,
         messages: [
             { role: 'user', content: message }
@@ -102,17 +89,13 @@ function proxyChat(req, res, body) {
         'Content-Length': Buffer.byteLength(payload)
     };
 
-    if (isOpenRouter) {
-        var effectiveKey = apiKey || OPENROUTER_API_KEY || '';
-        if (!effectiveKey) {
-            return send(res, 400, 'application/json; charset=utf-8', JSON.stringify({ error: { message: 'Missing OpenRouter API key' } }));
-        }
-        headers.Authorization = 'Bearer ' + effectiveKey;
-        if (OPENROUTER_SITE_URL) headers['HTTP-Referer'] = OPENROUTER_SITE_URL;
-        headers['X-Title'] = OPENROUTER_APP_NAME;
-    } else if (/localhost:11434/i.test(baseURL) && !/\/v1/i.test(basePath)) {
-        headers['Accept'] = 'application/json';
+    var effectiveKey = apiKey || GROQ_API_KEY || '';
+    if (!effectiveKey) {
+        return send(res, 400, 'application/json; charset=utf-8', JSON.stringify({ error: { message: 'Missing Groq API key' } }));
     }
+    headers.Authorization = 'Bearer ' + effectiveKey;
+    if (GROQ_SITE_URL) headers['HTTP-Referer'] = GROQ_SITE_URL;
+    headers['X-Title'] = GROQ_APP_NAME;
 
     var requestOptions = {
         hostname: apiHost,
@@ -129,7 +112,7 @@ function proxyChat(req, res, body) {
         apiRes.on('end', function() {
             var raw = Buffer.concat(chunks).toString('utf8');
             if (apiRes.statusCode === 404) {
-                raw = JSON.stringify({ error: { message: 'OpenRouter returned 404 Not Found. Check the model name and Server URL.', statusCode: 404 } });
+                raw = JSON.stringify({ error: { message: 'Groq returned 404 Not Found. Check the model name and URL.', statusCode: 404 } });
             } else if (apiRes.statusCode >= 400 && !raw) {
                 raw = JSON.stringify({ error: { message: 'Upstream error', statusCode: apiRes.statusCode } });
             }
@@ -158,5 +141,5 @@ http.createServer(function(req, res) {
 
     serveStatic(req, res);
 }).listen(PORT, function() {
-    console.log('rampyai free listening on http://localhost:' + PORT);
+    console.log('rampyai groq listening on http://localhost:' + PORT);
 });

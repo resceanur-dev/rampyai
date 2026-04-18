@@ -1,4 +1,4 @@
-var STORAGE_PREFIX = 'rampyai.';
+var STORAGE_PREFIX = 'rampyai_groq.';
 var messages = [];
 
 function byId(id) {
@@ -11,7 +11,7 @@ function setStatus(text) {
 
 function saveSettings() {
     localStorage.setItem(STORAGE_PREFIX + 'agentURL', byId('agentURL').value);
-    localStorage.setItem(STORAGE_PREFIX + 'openrouterKey', byId('openrouterKey').value);
+    localStorage.setItem(STORAGE_PREFIX + 'groqKey', byId('openrouterKey').value);
     localStorage.setItem(STORAGE_PREFIX + 'model', byId('model').value);
     setStatus('Settings saved');
 }
@@ -36,13 +36,13 @@ function applyThemePrefs() {
 
 function loadSettings() {
     var agentURL = localStorage.getItem(STORAGE_PREFIX + 'agentURL');
-    var openrouterKey = localStorage.getItem(STORAGE_PREFIX + 'openrouterKey');
+    var groqKey = localStorage.getItem(STORAGE_PREFIX + 'groqKey');
     var model = localStorage.getItem(STORAGE_PREFIX + 'model');
     var classicSkin = localStorage.getItem(STORAGE_PREFIX + 'classicSkin');
     var glossyButtons = localStorage.getItem(STORAGE_PREFIX + 'glossyButtons');
     var settingsTexture = localStorage.getItem(STORAGE_PREFIX + 'settingsTexture');
     if (agentURL) byId('agentURL').value = agentURL;
-    if (openrouterKey) byId('openrouterKey').value = openrouterKey;
+    if (groqKey) byId('openrouterKey').value = groqKey;
     if (model) byId('model').value = model;
     if (classicSkin !== null) byId('classicSkin').checked = classicSkin === '1';
     if (glossyButtons !== null) byId('glossyButtons').checked = glossyButtons === '1';
@@ -68,7 +68,7 @@ function renderMessages() {
     var i;
     for (i = 0; i < messages.length; i++) {
         html += '<div class="message ' + messages[i].role + '">';
-        html += '<div class="role">' + (messages[i].role === 'user' ? 'You' : 'rampyai') + '</div>';
+        html += '<div class="role">' + (messages[i].role === 'user' ? 'You' : 'rampyai groq') + '</div>';
         html += '<div class="bubble">' + escapeHtml(messages[i].text) + '</div>';
         html += '</div>';
     }
@@ -78,7 +78,6 @@ function renderMessages() {
 function extractReply(json, fallbackText) {
     var reply = '';
     if (!json) return fallbackText || 'No response';
-
     if (json.choices && json.choices.length > 0) {
         if (json.choices[0].message && json.choices[0].message.content) {
             reply = json.choices[0].message.content;
@@ -92,7 +91,6 @@ function extractReply(json, fallbackText) {
     } else if (json.error) {
         reply = json.error.message || json.error;
     }
-
     return reply || fallbackText || 'No response';
 }
 
@@ -153,51 +151,27 @@ function sendMessage() {
 
     xhr.open('POST', '/api', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send('baseURL=' + encodeURIComponent(byId('agentURL').value.replace(/\/+$/, '')) + '&apiKey=' + encodeURIComponent(byId('openrouterKey').value) + '&model=' + encodeURIComponent(byId('model').value || 'llama3.2') + '&message=' + encodeURIComponent(text));
+    xhr.send('baseURL=' + encodeURIComponent(byId('agentURL').value.replace(/\/+$/, '')) + '&apiKey=' + encodeURIComponent(byId('openrouterKey').value) + '&model=' + encodeURIComponent(byId('model').value || 'llama-3.1-8b-instant') + '&message=' + encodeURIComponent(text));
 }
 
 function runConnectivityCheck() {
     if (location.protocol === 'file:') {
-        setStatus('Open http://localhost:3000/ after running the server');
+        setStatus('Open http://localhost:3000/ after running npm start');
         return;
     }
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                setStatus('OpenRouter ready');
-            } else {
-                var raw = xhr.responseText || '';
-                var failure = formatFailure(xhr.status, xhr.statusText, raw);
-                if (raw) {
-                    try {
-                        var errJson = eval('(' + raw + ')');
-                        failure = extractReply(errJson, failure);
-                    } catch (e) {
-                        failure = raw;
-                    }
-                }
-                setStatus(failure);
-            }
-        }
-    };
-    xhr.open('POST', '/api', true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send('baseURL=' + encodeURIComponent(byId('agentURL').value.replace(/\/+$/, '')) + '&apiKey=' + encodeURIComponent(byId('openrouterKey').value) + '&model=' + encodeURIComponent(byId('model').value || 'meta-llama/llama-3.1-8b-instruct:free') + '&message=' + encodeURIComponent('ping'));
 }
 
 function init() {
     loadSettings();
     if (!byId('agentURL').value) {
-        byId('agentURL').value = 'https://openrouter.ai/api/v1';
+        byId('agentURL').value = 'https://api.groq.com/openai/v1';
     }
     if (!byId('model').value) {
-        byId('model').value = 'meta-llama/llama-3.1-8b-instruct:free';
+        byId('model').value = 'llama-3.1-8b-instant';
     }
-    messages = [{ role: 'assistant', text: 'Hi, I am rampyai. Ask me anything.' }];
+    messages = [{ role: 'assistant', text: 'Hi, I am rampyai groq. Ask me anything.' }];
     renderMessages();
     setStatus('Ready');
-    runConnectivityCheck();
 
     var settings = byId('settings');
     if (settings) {

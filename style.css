@@ -259,70 +259,32 @@ body {
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 1px 2px rgba(0,0,0,0.18);
 }
 
-body.glossy-buttons .buttons button,
-body.glossy-buttons #sendBtn,
-body.glossy-buttons #navBack {
-    background: linear-gradient(180deg, #9bb0ca 0%, #6c84a0 49%, #516b88 50%, #344b67 100%);
-    color: #fff;
-    text-shadow: 0 -1px 0 rgba(0,0,0,0.5);
-    border-color: #1f3147;
-}
-
-body.glossy-buttons .buttons button:active,
-body.glossy-buttons #sendBtn:active,
-body.glossy-buttons #navBack:active {
-    background: linear-gradient(180deg, #6a809d 0%, #47607f 49%, #334a68 50%, #223651 100%);
-}
-
-body.classic-skin #app {
-    background: #cfd8e3;
-}
-
-body.texture-settings #settings {
-    background:
-        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><rect width="18" height="18" fill="%23e4e9ee"/><path d="M0 17h18" stroke="%23c6cfd8" stroke-width="1"/></svg>') repeat,
-        linear-gradient(180deg, #dfe7ef 0%, #cfd8e2 100%);
-}
-
-#chat {
-    padding: 12px;
-    background: linear-gradient(180deg, #eef3f8 0%, #d9e2ec 100%);
-}
-
-#messages {
-    min-height: 260px;
-}
-
 .message {
-    margin: 10px 0;
-    clear: both;
+    margin-bottom: 10px;
+}
+
+.role {
+    font-weight: bold;
+    margin-bottom: 3px;
+    color: #17304d;
 }
 
 .bubble {
-    display: inline-block;
-    max-width: 85%;
     padding: 10px 12px;
-    border-radius: 12px;
-    line-height: 1.4;
-    word-wrap: break-word;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
-}
-
-.assistant .bubble {
-    background: linear-gradient(180deg, #ffffff 0%, #e9edf2 100%);
+    border-radius: 10px;
+    background: linear-gradient(180deg, #ffffff 0%, #e8edf2 100%);
     border: 1px solid #b7c0cb;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
 }
 
 .user .bubble {
     background: linear-gradient(180deg, #d8e8fb 0%, #bcd1ea 100%);
     border: 1px solid #93adc8;
-    float: right;
 }
 
-.role {
-    font-size: 11px;
-    color: #666;
-    margin-bottom: 3px;
+#chat {
+    padding: 12px;
+    background: linear-gradient(180deg, #eef3f8 0%, #d9e2ec 100%);
 }
 
 #composer {
@@ -355,4 +317,8 @@ body.texture-settings #settings {
     font-size: 12px;
     color: #2d3e52;
     text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+}
+
+@media (max-width: 640px) {
+    #shell { padding: 8px; }
 }

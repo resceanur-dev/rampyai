@@ -1,10 +1,10 @@
 {
-  "name": "rampyai-free",
+  "name": "rampyai-groq",
   "version": "1.0.0",
   "private": false,
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
-  "description": "Retro iOS 6 chat website with an OpenRouter backend proxy."
+  "description": "Retro iOS 6 chat website using Groq API."
 }
