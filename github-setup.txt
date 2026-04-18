@@ -1,0 +1,16 @@
+GitHub setup
+
+Recommended repo layout:
+- frontend files in the repo root
+- server.js for the OpenRouter proxy
+- package.json with npm start
+
+Important:
+- do not commit your OpenRouter API key
+- use GitHub repo secrets or local env vars for OPENROUTER_API_KEY
+- GitHub Pages alone cannot proxy the API securely
+
+Deploy options:
+- push the repo to GitHub
+- run the server on a host that supports Node.js
+- or deploy the proxy as a serverless function and keep the UI in the repo

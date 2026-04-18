@@ -30,19 +30,19 @@
         </div>
 
         <div id="settings">
-            <div class="section-title">Settings</div>
+            <div class="section-title">OpenRouter Server</div>
             <div class="group">
                 <div class="group-row">
-                    <label for="apiKey">API Key</label>
-                    <input type="password" id="apiKey" value="">
+                    <label for="agentURL">Server URL</label>
+                    <input type="text" id="agentURL" value="https://openrouter.ai/api/v1">
                 </div>
                 <div class="group-row">
-                    <label for="baseURL">Base URL</label>
-                    <input type="text" id="baseURL" value="https://api.openai.com">
+                    <label for="openrouterKey">OpenRouter API Key</label>
+                    <input type="password" id="openrouterKey" value="" placeholder="sk-or-v1-...">
                 </div>
                 <div class="group-row last">
                     <label for="model">Model</label>
-                    <input type="text" id="model" value="gpt-3.5-turbo">
+                    <input type="text" id="model" value="meta-llama/llama-3.1-8b-instruct:free">
                 </div>
             </div>
 
@@ -74,6 +74,8 @@
                 <button onclick="saveSettings()">Save</button>
                 <button onclick="clearChat()">Clear</button>
             </div>
+            <div class="notice">This copy is set up for OpenRouter.</div>
+            <div class="notice">The key stays in the browser and is sent only to your local server proxy.</div>
         </div>
 
         <div id="chat">
